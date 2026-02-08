@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDIFIX API Server</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      padding: 40px;
+      max-width: 500px;
+      width: 100%;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      color: #6b7280;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    
+    .pulse {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #10b981;
+      animation: pulse 2s ease-in-out infinite;
+    }
+    
+    .pulse.error { background: #ef4444; }
+    
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+      50% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+    }
+    
+    .status-text {
+      color: #10b981;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .status-text.error { color: #ef4444; }
+    
+    .section {
+      margin-bottom: 25px;
+    }
+    
+    .section-title {
+      color: #9ca3af;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    
+    .stat-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 10px;
+      padding: 15px;
+      transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(102, 126, 234, 0.3);
+    }
+    
+    .stat-label {
+      color: #6b7280;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+    }
+    
+    .stat-value {
+      color: #e5e7eb;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: 'Consolas', monospace;
+    }
+    
+    .stat-value.success { color: #10b981; }
+    .stat-value.warning { color: #f59e0b; }
+    .stat-value.error { color: #ef4444; }
+    .stat-value.info { color: #667eea; }
+    
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .info-row:last-child { border-bottom: none; }
+    
+    .info-label {
+      color: #9ca3af;
+      font-size: 0.85rem;
+    }
+    
+    .info-value {
+      color: #e5e7eb;
+      font-family: 'Consolas', monospace;
+      font-size: 0.9rem;
+    }
+    
+    .endpoints {
+      background: rgba(102, 126, 234, 0.1);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      border-radius: 10px;
+      padding: 15px;
+    }
+    
+    .endpoint {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 0;
+      font-family: 'Consolas', monospace;
+      font-size: 0.8rem;
+    }
+    
+    .method {
+      background: #10b981;
+      color: #fff;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 700;
+    }
+    
+    .method.post { background: #f59e0b; }
+    
+    .path { color: #a5b4fc; }
+    
+    .footer {
+      margin-top: 25px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+    
+    .footer-text {
+      color: #4b5563;
+      font-size: 0.75rem;
+    }
+    
+    .loading {
+      color: #f59e0b;
+      animation: blink 1s ease-in-out infinite;
+    }
+    
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">EDIFIX</div>
+      <div class="subtitle">API Server Dashboard</div>
+      <div class="status-indicator">
+        <div class="pulse" id="pulse"></div>
+        <span class="status-text" id="status-text">Connecting...</span>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Server Statistics</div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Database</div>
+          <div class="stat-value" id="database">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Uptime</div>
+          <div class="stat-value info" id="uptime">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Port</div>
+          <div class="stat-value" id="port">--</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Environment</div>
+          <div class="stat-value" id="mode">--</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Server Information</div>
+      <div class="info-row">
+        <span class="info-label">Protocol</span>
+        <span class="info-value" id="secure">--</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">API Version</span>
+        <span class="info-value">v1.0.0</span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Node.js</span>
+        <span class="info-value" id="node-version">--</span>
+      </div>
+    </div>
+    
+    <div class="section">
+      <div class="section-title">Available Endpoints</div>
+      <div class="endpoints">
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/auth</span></div>
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/courses</span></div>
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/lessons</span></div>
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/progress</span></div>
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/exams</span></div>
+        <div class="endpoint"><span class="method">GET</span><span class="path">/api/notifications</span></div>
+      </div>
+    </div>
+    
+    <div class="footer">
+      <div class="footer-text">EDIFIX Learning Platform - Backend Services</div>
+    </div>
+  </div>
+
+  <script>
+    async function fetchHealth() {
+      try {
+        const res = await fetch('/api/health');
+        const data = await res.json();
+        
+        // Status indicator
+        const pulse = document.getElementById('pulse');
+        const statusText = document.getElementById('status-text');
+        
+        if (data.server === 'ACTIVE') {
+          pulse.className = 'pulse';
+          statusText.className = 'status-text';
+          statusText.textContent = 'All Systems Operational';
+        } else {
+          pulse.className = 'pulse error';
+          statusText.className = 'status-text error';
+          statusText.textContent = 'System Error';
+        }
+        
+        // Database
+        const db = document.getElementById('database');
+        db.textContent = data.database;
+        db.className = data.database === 'CONNECTED' ? 'stat-value success' : 'stat-value error';
+        
+        // Other stats
+        document.getElementById('uptime').textContent = data.uptime;
+        document.getElementById('port').textContent = ':' + data.port;
+        document.getElementById('mode').textContent = data.mode.toUpperCase();
+        document.getElementById('secure').textContent = data.secure;
+        document.getElementById('node-version').textContent = 'v20.x';
+        
+      } catch (e) {
+        document.getElementById('pulse').className = 'pulse error';
+        document.getElementById('status-text').className = 'status-text error';
+        document.getElementById('status-text').textContent = 'Connection Failed';
+        document.getElementById('database').textContent = 'ERROR';
+        document.getElementById('database').className = 'stat-value error';
+      }
+    }
+    
+    fetchHealth();
+    setInterval(fetchHealth, 2000);
+  </script>
+</body>
+</html>

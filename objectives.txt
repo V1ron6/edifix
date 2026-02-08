@@ -1,1 +1,12 @@
-a website for learning
+edifix - awebsite for learning webdev .
+!!!!!!!!!!!the database has no tables!!!!!!!!!!
+each user has their peronal dashboard with notification and reminder abilities,and also a streak , a playground for testing skills and an examinantion session after every study, at random intervals
+add a progress monitor
+
+a website for learning programming languages
+but in stages from
+ html->css->js-git->deployement->
+ nodejs->databases->expressjs->middlewares->cors->deployment
+  
+!!!!!!!!!!!!!!!!!! never hardcode api endpoints/base url in the code or component keepit in a dotenv file from where it can be imported !!!!!!!!!!!!!!!!!!!!!
+for both frontend and backend
