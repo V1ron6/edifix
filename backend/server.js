@@ -29,7 +29,9 @@ import {
   notificationRoutes,
   reminderRoutes,
   playgroundRoutes,
-  dashboardRoutes
+  dashboardRoutes,
+  articleRoutes,
+  forumRoutes
 } from "./Route/index.js";
 
 // Middleware
@@ -102,6 +104,8 @@ app.use("/api/notifications", notificationRoutes);
 app.use("/api/reminders", reminderRoutes);
 app.use("/api/playground", playgroundRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/articles", articleRoutes);
+app.use("/api/forum", forumRoutes);
 
 // Error handling
 app.use(notFound);

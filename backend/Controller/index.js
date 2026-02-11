@@ -8,3 +8,5 @@ export * from './notificationController.js';
 export * from './reminderController.js';
 export * from './playgroundController.js';
 export * from './dashboardController.js';
+export * from './articleController.js';
+export * from './forumController.js';

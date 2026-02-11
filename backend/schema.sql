@@ -200,6 +200,99 @@ CREATE TABLE IF NOT EXISTS questions (
   FOREIGN KEY (courseId) REFERENCES courses(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
+-- ==================== ARTICLES TABLE ====================
+CREATE TABLE IF NOT EXISTS articles (
+  id CHAR(36) PRIMARY KEY,
+  title VARCHAR(200) NOT NULL,
+  slug VARCHAR(200) NOT NULL UNIQUE,
+  content LONGTEXT NOT NULL COMMENT 'Markdown content',
+  excerpt TEXT DEFAULT NULL COMMENT 'Short description/summary',
+  thumbnail VARCHAR(255) DEFAULT NULL,
+  category ENUM('html', 'css', 'javascript', 'nodejs', 'expressjs', 'databases', 'git', 'deployment', 'best-practices', 'tips', 'general') NOT NULL,
+  tags JSON DEFAULT '[]' COMMENT 'Array of tags for filtering',
+  source VARCHAR(255) DEFAULT NULL COMMENT 'Original source URL if external',
+  authorId CHAR(36) NOT NULL COMMENT 'Admin who created/added the article',
+  readTimeMinutes INT DEFAULT 5,
+  viewCount INT DEFAULT 0,
+  isPublished TINYINT(1) DEFAULT 0,
+  isFeatured TINYINT(1) DEFAULT 0,
+  publishedAt DATETIME DEFAULT NULL,
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- ==================== FORUM CATEGORIES TABLE ====================
+CREATE TABLE IF NOT EXISTS forum_categories (
+  id CHAR(36) PRIMARY KEY,
+  name VARCHAR(100) NOT NULL UNIQUE,
+  slug VARCHAR(100) NOT NULL UNIQUE,
+  description TEXT DEFAULT NULL,
+  icon VARCHAR(50) DEFAULT 'chat' COMMENT 'Icon name for the category',
+  color VARCHAR(20) DEFAULT '#3498db' COMMENT 'Color theme for the category',
+  `order` INT DEFAULT 0,
+  isActive TINYINT(1) DEFAULT 1,
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- ==================== FORUM THREADS TABLE ====================
+CREATE TABLE IF NOT EXISTS forum_threads (
+  id CHAR(36) PRIMARY KEY,
+  categoryId CHAR(36) NOT NULL,
+  authorId CHAR(36) NOT NULL,
+  title VARCHAR(200) NOT NULL,
+  slug VARCHAR(220) NOT NULL,
+  content LONGTEXT NOT NULL COMMENT 'Markdown content',
+  tags JSON DEFAULT '[]' COMMENT 'Array of tags for filtering',
+  viewCount INT DEFAULT 0,
+  replyCount INT DEFAULT 0,
+  likeCount INT DEFAULT 0,
+  isPinned TINYINT(1) DEFAULT 0,
+  isLocked TINYINT(1) DEFAULT 0 COMMENT 'Locked threads cannot receive new replies',
+  isSolved TINYINT(1) DEFAULT 0 COMMENT 'For question threads - marked as solved',
+  solvedPostId CHAR(36) DEFAULT NULL COMMENT 'The post that solved the question',
+  lastActivityAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (categoryId) REFERENCES forum_categories(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE KEY unique_category_slug (categoryId, slug)
+);
+
+-- ==================== FORUM POSTS TABLE ====================
+CREATE TABLE IF NOT EXISTS forum_posts (
+  id CHAR(36) PRIMARY KEY,
+  threadId CHAR(36) NOT NULL,
+  authorId CHAR(36) NOT NULL,
+  parentId CHAR(36) DEFAULT NULL COMMENT 'For nested replies - parent post ID',
+  content LONGTEXT NOT NULL COMMENT 'Markdown content',
+  likeCount INT DEFAULT 0,
+  isEdited TINYINT(1) DEFAULT 0,
+  editedAt DATETIME DEFAULT NULL,
+  isSolution TINYINT(1) DEFAULT 0 COMMENT 'Marked as the solution to the thread question',
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (threadId) REFERENCES forum_threads(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (authorId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (parentId) REFERENCES forum_posts(id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+-- ==================== FORUM LIKES TABLE ====================
+CREATE TABLE IF NOT EXISTS forum_likes (
+  id CHAR(36) PRIMARY KEY,
+  userId CHAR(36) NOT NULL,
+  threadId CHAR(36) DEFAULT NULL COMMENT 'Set if liking a thread',
+  postId CHAR(36) DEFAULT NULL COMMENT 'Set if liking a post',
+  createdAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updatedAt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (threadId) REFERENCES forum_threads(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (postId) REFERENCES forum_posts(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  UNIQUE KEY unique_user_thread_like (userId, threadId),
+  UNIQUE KEY unique_user_post_like (userId, postId)
+);
+
 -- ==================== INDEXES ====================
 CREATE INDEX idx_progress_user ON progress(userId);
 CREATE INDEX idx_progress_course ON progress(courseId);
@@ -211,6 +304,17 @@ CREATE INDEX idx_exam_results_user ON exam_results(userId);
 CREATE INDEX idx_questions_category ON questions(category);
 CREATE INDEX idx_questions_difficulty ON questions(difficulty);
 CREATE INDEX idx_playground_user ON playground_sessions(userId);
+CREATE INDEX idx_articles_author ON articles(authorId);
+CREATE INDEX idx_articles_category ON articles(category);
+CREATE INDEX idx_articles_published ON articles(isPublished);
+CREATE INDEX idx_articles_featured ON articles(isFeatured);
+CREATE INDEX idx_forum_threads_category ON forum_threads(categoryId);
+CREATE INDEX idx_forum_threads_author ON forum_threads(authorId);
+CREATE INDEX idx_forum_threads_pinned ON forum_threads(isPinned);
+CREATE INDEX idx_forum_threads_activity ON forum_threads(lastActivityAt);
+CREATE INDEX idx_forum_posts_thread ON forum_posts(threadId);
+CREATE INDEX idx_forum_posts_author ON forum_posts(authorId);
+CREATE INDEX idx_forum_likes_user ON forum_likes(userId);
 
 -- ==================== DONE ====================
 -- All tables created successfully

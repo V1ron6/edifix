@@ -8,6 +8,8 @@ import notificationRoutes from './notificationRoutes.js';
 import reminderRoutes from './reminderRoutes.js';
 import playgroundRoutes from './playgroundRoutes.js';
 import dashboardRoutes from './dashboardRoutes.js';
+import articleRoutes from './articleRoutes.js';
+import forumRoutes from './forumRoutes.js';
 
 export {
   authRoutes,
@@ -19,5 +21,7 @@ export {
   notificationRoutes,
   reminderRoutes,
   playgroundRoutes,
-  dashboardRoutes
+  dashboardRoutes,
+  articleRoutes,
+  forumRoutes
 };
