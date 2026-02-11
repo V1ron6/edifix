@@ -23,19 +23,7 @@ const ForumLike = sequelize.define('ForumLike', {
   }
 }, {
   tableName: 'forum_likes',
-  timestamps: true,
-  indexes: [
-    {
-      unique: true,
-      fields: ['userId', 'threadId'],
-      where: { threadId: { [require('sequelize').Op.ne]: null } }
-    },
-    {
-      unique: true,
-      fields: ['userId', 'postId'],
-      where: { postId: { [require('sequelize').Op.ne]: null } }
-    }
-  ]
+  timestamps: true
 });
 
 export default ForumLike;
