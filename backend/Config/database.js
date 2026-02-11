@@ -37,7 +37,7 @@ export const connectDB = async () => {
     console.log('[OK] MySQL Database connected successfully');
     
     // Sync all models - creates tables if they don't exist
-    await sequelize.sync({ alter: true });
+    await sequelize.sync({ alter: false });
     console.log('[OK] Database tables synced');
   } catch (error) {
     console.error('[ERROR] Unable to connect to database:', error.message);
