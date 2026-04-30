@@ -1,11 +1,11 @@
 import { forwardRef } from 'react';
 
 const VARIANTS = {
-  primary: 'bg-[#5b5f97] text-white hover:bg-[#5b5f97]/80 focus:ring-[#5b5f97]/40',
-  secondary: 'border border-[#2a2a4a] text-[#a0a0b8] hover:border-[#5b5f97] hover:text-[#b8b8d1] focus:ring-[#5b5f97]/20',
-  ghost: 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1] focus:ring-[#5b5f97]/20',
-  danger: 'bg-[#e74c3c]/10 text-[#e74c3c] hover:bg-[#e74c3c]/20 focus:ring-[#e74c3c]/20',
-  success: 'bg-[#2ecc71] text-[#1a1a2e] hover:bg-[#2ecc71]/80 focus:ring-[#2ecc71]/40',
+  primary: 'border border-[#9fef00]/60 bg-[#9fef00] text-[#081207] hover:bg-[#b6ff35] focus:ring-[#9fef00]/45 shadow-[0_10px_26px_rgba(159,239,0,0.22)]',
+  secondary: 'border border-[#1f2b37] bg-[#15222f] text-[#c7d7e8] hover:border-[#2f4458] hover:text-[#e7f2ff] focus:ring-[#00d1ff]/20',
+  ghost: 'text-[#8ba0b3] hover:bg-[#15222f] hover:text-[#dbe6f2] focus:ring-[#00d1ff]/20',
+  danger: 'bg-[#ff5d73]/12 text-[#ff93a2] hover:bg-[#ff5d73]/20 focus:ring-[#ff5d73]/22',
+  success: 'bg-[#24d997] text-[#06170f] hover:bg-[#2ef1a8] focus:ring-[#24d997]/40',
 };
 
 const SIZES = {
@@ -29,7 +29,7 @@ const Button = forwardRef(({
     <button
       ref={ref}
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#1a1a2e] disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#0b1116] disabled:pointer-events-none disabled:opacity-50 ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...props}
     >
       {loading ? (

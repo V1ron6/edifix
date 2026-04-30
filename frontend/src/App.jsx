@@ -26,6 +26,16 @@ import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
 import Notfound from './pages/Notfound.jsx'
 
+// Admin Pages
+import {
+  AdminDashboard,
+  CourseManagement,
+  CourseEditor,
+  LessonManagement,
+  LessonEditor,
+  NotificationBroadcast,
+} from './pages/admin';
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -35,9 +45,9 @@ export default function App() {
           toastOptions={{
             duration: 3000,
             style: {
-              background: '#16213e',
-              color: '#e0e0e0',
-              border: '1px solid #2a2a4a',
+              background: '#101923',
+              color: '#dbe6f2',
+              border: '1px solid #1f2b37',
               fontSize: '14px',
             },
           }}
@@ -67,6 +77,15 @@ export default function App() {
             <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
             <Route path="/reminders" element={<ProtectedRoute><Reminders /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            {/* Admin Routes */}
+            <Route path="/admin" element={<ProtectedRoute><AdminDashboard /></ProtectedRoute>} />
+            <Route path="/admin/courses" element={<ProtectedRoute><CourseManagement /></ProtectedRoute>} />
+            <Route path="/admin/courses/new" element={<ProtectedRoute><CourseEditor /></ProtectedRoute>} />
+            <Route path="/admin/courses/:id" element={<ProtectedRoute><CourseEditor /></ProtectedRoute>} />
+            <Route path="/admin/courses/:courseId/lessons" element={<ProtectedRoute><LessonManagement /></ProtectedRoute>} />
+            <Route path="/admin/courses/:courseId/lessons/new" element={<ProtectedRoute><LessonEditor /></ProtectedRoute>} />
+            <Route path="/admin/courses/:courseId/lessons/:lessonId" element={<ProtectedRoute><LessonEditor /></ProtectedRoute>} />
+            <Route path="/admin/notifications" element={<ProtectedRoute><NotificationBroadcast /></ProtectedRoute>} />
           </Route>
         </Routes>
       </AuthProvider>

@@ -9,3 +9,6 @@ export { default as StatCard } from './StatCard';
 export { default as TabGroup } from './TabGroup';
 export { default as Avatar } from './Avatar';
 export { default as ProgressBar } from './ProgressBar';
+export { default as Modal, ModalFooter } from './Modal';
+export { default as Tooltip } from './Tooltip';
+export { default as Skeleton } from './Skeleton';

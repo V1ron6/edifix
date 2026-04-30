@@ -1,10 +1,10 @@
 const VARIANT_STYLES = {
-  default: 'bg-[#5b5f97]/15 text-[#5b5f97]',
-  success: 'bg-[#2ecc71]/15 text-[#2ecc71]',
-  warning: 'bg-[#f39c12]/15 text-[#f39c12]',
-  danger: 'bg-[#e74c3c]/15 text-[#e74c3c]',
-  info: 'bg-[#b8b8d1]/15 text-[#b8b8d1]',
-  outline: 'border border-[#2a2a4a] text-[#a0a0b8]',
+  default: 'bg-[#9fef00]/15 text-[#9fef00]',
+  success: 'bg-[#24d997]/15 text-[#24d997]',
+  warning: 'bg-[#ffc857]/15 text-[#ffc857]',
+  danger: 'bg-[#ff5d73]/15 text-[#ff7f92]',
+  info: 'bg-[#00d1ff]/15 text-[#00d1ff]',
+  outline: 'border border-[#1f2b37] text-[#9ab0c4]',
 };
 
 export default function Badge({

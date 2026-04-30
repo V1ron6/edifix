@@ -1,225 +1,252 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { Badge, Button, Card } from '../components/ui';
 import {
-  BookOpen, Code2, FileText, MessageSquare, ArrowRight, Flame,
-  Trophy, Target, Layers, ChevronRight,
+  ArrowRight,
+  BookOpen,
+  Code2,
+  FileCode2,
+  FileText,
+  Flame,
+  MessageSquare,
+  Radar,
+  Shield,
+  Target,
+  Terminal,
+  Trophy,
+  Users,
+  Zap,
 } from 'lucide-react';
 
-const FEATURES = [
+const STATS = [
+  { value: '72', label: 'Hands-on labs', icon: Radar, color: '#00d1ff' },
+  { value: '14', label: 'Career tracks', icon: BookOpen, color: '#9fef00' },
+  { value: '250+', label: 'Challenges solved daily', icon: Target, color: '#ffc857' },
+  { value: '99.9%', label: 'Platform uptime', icon: Shield, color: '#24d997' },
+];
+
+const TRACKS = [
   {
-    icon: BookOpen,
-    title: 'Structured Courses',
-    desc: 'Follow a clear learning path from HTML to full-stack deployment.',
-    color: '#5b5f97',
+    title: 'Web Offensive',
+    level: 'Beginner to Advanced',
+    desc: 'Learn recon, injection chains, and secure exploit methodology in guided labs.',
+    points: ['Recon Fundamentals', 'OWASP attack labs', 'Bug bounty workflows'],
+    color: '#9fef00',
   },
   {
-    icon: Code2,
-    title: 'Code Playground',
-    desc: 'Write and test code directly in the browser with instant output.',
-    color: '#2ecc71',
+    title: 'Defensive Engineering',
+    level: 'Intermediate',
+    desc: 'Harden modern applications and monitor suspicious behavior with practical blue-team drills.',
+    points: ['Threat modeling', 'Secure auth patterns', 'Log and alert pipelines'],
+    color: '#00d1ff',
+  },
+  {
+    title: 'Full Stack Builder',
+    level: 'All levels',
+    desc: 'Ship production-ready apps with CI, secure APIs, and scalable deployment pipelines.',
+    points: ['Frontend mastery', 'API and data design', 'Deploy and observe'],
+    color: '#ffc857',
+  },
+];
+
+const FEATURE_GRID = [
+  {
+    icon: Terminal,
+    title: 'Interactive Labs',
+    desc: 'Browser-based terminals and guided steps for zero-setup practical training.',
+    link: '/playground',
   },
   {
     icon: FileText,
-    title: 'Articles & Guides',
-    desc: 'In-depth articles covering best practices and modern techniques.',
-    color: '#b8b8d1',
+    title: 'Tactical Writeups',
+    desc: 'Field notes and walkthroughs that explain not just what works, but why.',
+    link: '/articles',
   },
   {
     icon: MessageSquare,
-    title: 'Community Forum',
-    desc: 'Ask questions, share knowledge, help fellow learners.',
-    color: '#f39c12',
+    title: 'Operator Forum',
+    desc: 'Collaborate with learners, ask questions, and review challenge strategies.',
+    link: '/forum',
   },
   {
-    icon: Flame,
-    title: 'Daily Streaks',
-    desc: 'Build consistency with streak tracking and leaderboards.',
-    color: '#e74c3c',
+    icon: Trophy,
+    title: 'Live Leaderboard',
+    desc: 'Compete on streaks, solved rooms, and exam precision in weekly seasons.',
+    link: '/leaderboard',
   },
   {
-    icon: Target,
-    title: 'Exams & Quizzes',
-    desc: 'Test your knowledge with auto-generated exams and track scores.',
-    color: '#6c63ff',
+    icon: FileCode2,
+    title: 'Exam Arena',
+    desc: 'Timed assessments with adaptive difficulty and detailed result insights.',
+    link: '/exams',
   },
-];
-
-const PATH_STEPS = [
-  { name: 'HTML', category: 'frontend' },
-  { name: 'CSS', category: 'frontend' },
-  { name: 'JavaScript', category: 'frontend' },
-  { name: 'Git', category: 'frontend' },
-  { name: 'Deployment', category: 'frontend' },
-  { name: 'Node.js', category: 'backend' },
-  { name: 'Databases', category: 'backend' },
-  { name: 'Express.js', category: 'backend' },
-  { name: 'Middlewares', category: 'backend' },
-  { name: 'Full Deploy', category: 'backend' },
-];
-
-const STATS = [
-  { value: '10+', label: 'Courses', icon: BookOpen },
-  { value: '100+', label: 'Lessons', icon: Layers },
-  { value: '500+', label: 'Questions', icon: Target },
-  { value: '24/7', label: 'Access', icon: Trophy },
+  {
+    icon: Code2,
+    title: 'Project Missions',
+    desc: 'Build full projects to prove your skills beyond multiple-choice questions.',
+    link: '/courses',
+  },
 ];
 
 export default function Home() {
   const { user } = useAuth();
 
   return (
-    <div className="space-y-24 pb-16">
-      {/* Hero */}
-      <section className="relative flex flex-col items-center pt-16 text-center">
-        {/* Background glow */}
-        <div className="absolute top-0 h-[500px] w-full bg-[radial-gradient(ellipse_at_top,rgba(91,95,151,0.12)_0%,transparent_60%)]" />
+    <div className="space-y-16 pb-14 lg:space-y-20">
+      <section className="relative overflow-hidden rounded-3xl border border-[#1f2b37] bg-[#0f1822]/95 px-6 py-10 md:px-10 md:py-14">
+        <div className="pointer-events-none absolute inset-0 cyber-grid opacity-35" />
+        <div className="pointer-events-none absolute -left-20 top-0 h-80 w-80 rounded-full bg-[#9fef00]/14 blur-[100px]" />
+        <div className="pointer-events-none absolute -right-20 bottom-0 h-80 w-80 rounded-full bg-[#00d1ff]/12 blur-[100px]" />
 
-        <div className="relative">
-          <span className="mb-4 inline-block rounded-full border border-[#5b5f97]/30 bg-[#5b5f97]/10 px-4 py-1.5 text-xs font-medium text-[#5b5f97]">
-            Learn web development the right way
-          </span>
-          <h1 className="text-4xl font-bold leading-tight text-[#b8b8d1] sm:text-5xl lg:text-6xl">
-            Master Web Development
-            <br />
-            <span className="text-gradient">Step by Step</span>
-          </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base text-[#a0a0b8] leading-relaxed">
-            A structured learning platform that takes you from zero to full-stack.
-            Courses, exams, a code playground, community forum, and progress tracking
-            -- everything you need in one place.
-          </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-            {user ? (
-              <Link
-                to="/dashboard"
-                className="flex items-center gap-2 rounded-lg bg-[#5b5f97] px-7 py-3 text-sm font-medium text-white shadow-[0_4px_16px_rgba(91,95,151,0.3)] transition-all hover:bg-[#5b5f97]/80 hover:shadow-[0_6px_24px_rgba(91,95,151,0.4)]"
-              >
-                Go to Dashboard
-                <ArrowRight size={16} />
-              </Link>
-            ) : (
-              <>
-                <Link
-                  to="/register"
-                  className="flex items-center gap-2 rounded-lg bg-[#5b5f97] px-7 py-3 text-sm font-medium text-white shadow-[0_4px_16px_rgba(91,95,151,0.3)] transition-all hover:bg-[#5b5f97]/80 hover:shadow-[0_6px_24px_rgba(91,95,151,0.4)]"
-                >
-                  Get Started Free
-                  <ArrowRight size={16} />
-                </Link>
-                <Link
-                  to="/courses"
-                  className="flex items-center gap-2 rounded-lg border border-[#2a2a4a] px-7 py-3 text-sm text-[#a0a0b8] transition-all hover:border-[#5b5f97] hover:text-[#b8b8d1]"
-                >
-                  Browse Courses
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Stats bar */}
-      <section className="mx-auto max-w-3xl">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {STATS.map(({ value, label, icon: Icon }) => (
-            <div
-              key={label}
-              className="flex flex-col items-center rounded-xl border border-[#2a2a4a] bg-[#16213e] p-4 transition hover:border-[#5b5f97]/30"
-            >
-              <Icon size={18} className="mb-2 text-[#5b5f97]" />
-              <span className="text-xl font-bold text-[#b8b8d1]">{value}</span>
-              <span className="text-xs text-[#a0a0b8]">{label}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Learning Path */}
-      <section className="mx-auto max-w-4xl">
-        <h2 className="mb-2 text-center text-2xl font-bold text-[#b8b8d1]">The Learning Path</h2>
-        <p className="mb-8 text-center text-sm text-[#a0a0b8]">
-          Follow the structured curriculum from frontend fundamentals to backend mastery
-        </p>
-
-        <div className="grid gap-6 sm:grid-cols-2">
-          {/* Frontend */}
-          <div className="rounded-xl border border-[#2a2a4a] bg-[#16213e] p-5">
-            <h3 className="mb-4 text-sm font-semibold text-[#5b5f97]">Frontend</h3>
-            <div className="space-y-2">
-              {PATH_STEPS.filter((s) => s.category === 'frontend').map((step, i) => (
-                <div key={step.name} className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#5b5f97]/15 text-xs font-semibold text-[#5b5f97]">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-[#b8b8d1]">{step.name}</span>
-                  {i < 4 && (
-                    <ChevronRight size={12} className="ml-auto text-[#2a2a4a]" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Backend */}
-          <div className="rounded-xl border border-[#2a2a4a] bg-[#16213e] p-5">
-            <h3 className="mb-4 text-sm font-semibold text-[#5b5f97]">Backend</h3>
-            <div className="space-y-2">
-              {PATH_STEPS.filter((s) => s.category === 'backend').map((step, i) => (
-                <div key={step.name} className="flex items-center gap-3">
-                  <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#5b5f97]/15 text-xs font-semibold text-[#5b5f97]">
-                    {i + 6}
-                  </span>
-                  <span className="text-sm text-[#b8b8d1]">{step.name}</span>
-                  {i < 4 && (
-                    <ChevronRight size={12} className="ml-auto text-[#2a2a4a]" />
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Features */}
-      <section>
-        <h2 className="mb-2 text-center text-2xl font-bold text-[#b8b8d1]">Everything You Need</h2>
-        <p className="mb-8 text-center text-sm text-[#a0a0b8]">
-          All the tools and resources to become a proficient web developer
-        </p>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map(({ icon: Icon, title, desc, color }) => (
-            <div
-              key={title}
-              className="group rounded-xl border border-[#2a2a4a] bg-[#16213e] p-6 transition-all duration-200 hover:border-[#5b5f97]/40 hover:shadow-[0_4px_20px_rgba(91,95,151,0.06)]"
-            >
-              <div
-                className="mb-4 flex h-10 w-10 items-center justify-center rounded-lg transition-transform duration-200 group-hover:scale-110"
-                style={{ backgroundColor: `${color}15` }}
-              >
-                <Icon size={20} style={{ color }} />
-              </div>
-              <h3 className="mb-1.5 font-semibold text-[#b8b8d1]">{title}</h3>
-              <p className="text-sm leading-relaxed text-[#a0a0b8]">{desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* CTA */}
-      {!user && (
-        <section className="mx-auto max-w-2xl text-center">
-          <div className="rounded-2xl border border-[#5b5f97]/20 bg-gradient-to-b from-[#5b5f97]/10 to-transparent p-10">
-            <h2 className="text-2xl font-bold text-[#b8b8d1]">Start Your Journey Today</h2>
-            <p className="mx-auto mt-2 max-w-md text-sm text-[#a0a0b8]">
-              Join Edifix and get access to structured courses, practice exams,
-              a code playground, and a supportive community.
+        <div className="relative z-10 grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
+          <div>
+            <p className="cyber-kicker">Mission Control</p>
+            <h1 className="mt-3 max-w-2xl text-4xl font-bold leading-tight text-white sm:text-5xl">
+              Train like a real security team, not a passive course watcher.
+            </h1>
+            <p className="mt-5 max-w-2xl text-base text-[#9ab0c4] sm:text-lg">
+              Edifix blends hands-on labs, structured web tracks, and daily competitive missions to make your learning practical and measurable.
             </p>
-            <Link
-              to="/register"
-              className="mt-6 inline-flex items-center gap-2 rounded-lg bg-[#5b5f97] px-8 py-3 text-sm font-medium text-white shadow-[0_4px_16px_rgba(91,95,151,0.3)] transition-all hover:shadow-[0_6px_24px_rgba(91,95,151,0.4)]"
-            >
-              Create Free Account
-              <ArrowRight size={16} />
+
+            <div className="mt-7 flex flex-wrap items-center gap-3">
+              {user ? (
+                <Link to="/dashboard">
+                  <Button size="lg" icon={Zap} iconRight={ArrowRight}>Go To Dashboard</Button>
+                </Link>
+              ) : (
+                <>
+                  <Link to="/register">
+                    <Button size="lg" icon={Shield} iconRight={ArrowRight}>Start Free Training</Button>
+                  </Link>
+                  <Link to="/courses">
+                    <Button size="lg" variant="secondary" icon={BookOpen}>Explore Tracks</Button>
+                  </Link>
+                </>
+              )}
+            </div>
+
+            <div className="mt-7 flex flex-wrap gap-2">
+              <Badge variant="default" dot>Daily challenges</Badge>
+              <Badge variant="info" dot>Real-world labs</Badge>
+              <Badge variant="warning" dot>Career pathways</Badge>
+            </div>
+          </div>
+
+          <Card className="cyber-panel" padding="p-6" gradient>
+            <p className="cyber-kicker">Live Feed</p>
+            <h3 className="mt-2 text-xl font-semibold text-[#dbe6f2]">Today in the arena</h3>
+            <div className="mt-5 space-y-3">
+              <div className="rounded-xl border border-[#1f2b37] bg-[#15222f]/75 p-3">
+                <p className="text-sm font-medium text-[#dbe6f2]">Injection Breakout</p>
+                <p className="mt-1 text-xs text-[#8ba0b3]">Web Offensive room updated 2h ago</p>
+              </div>
+              <div className="rounded-xl border border-[#1f2b37] bg-[#15222f]/75 p-3">
+                <p className="text-sm font-medium text-[#dbe6f2]">Blue Shield Sprint</p>
+                <p className="mt-1 text-xs text-[#8ba0b3]">Defensive challenge starts in 45 min</p>
+              </div>
+              <div className="rounded-xl border border-[#1f2b37] bg-[#15222f]/75 p-3">
+                <p className="text-sm font-medium text-[#dbe6f2]">Community Drill</p>
+                <p className="mt-1 text-xs text-[#8ba0b3]">43 learners currently online in forum</p>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <section>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {STATS.map((item) => {
+            const IconComponent = item.icon;
+            return (
+              <Card key={item.label} hover className="cyber-panel" padding="p-5">
+                <div className="mb-3 inline-flex h-11 w-11 items-center justify-center rounded-xl" style={{ backgroundColor: `${item.color}22` }}>
+                  <IconComponent size={20} style={{ color: item.color }} />
+                </div>
+                <p className="text-3xl font-bold text-[#eaf2ff]">{item.value}</p>
+                <p className="mt-1 text-sm text-[#8ba0b3]">{item.label}</p>
+              </Card>
+            );
+          })}
+        </div>
+      </section>
+
+      <section>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="cyber-kicker">Training Paths</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Choose your operation track</h2>
+          </div>
+          <Link to="/courses">
+            <Button variant="secondary" iconRight={ArrowRight}>View curriculum</Button>
+          </Link>
+        </div>
+
+        <div className="grid gap-5 lg:grid-cols-3">
+          {TRACKS.map((track) => (
+            <Card key={track.title} hover className="cyber-panel" padding="p-6">
+              <div className="mb-4 flex items-center justify-between">
+                <h3 className="text-xl font-semibold text-[#dbe6f2]">{track.title}</h3>
+                <span className="rounded-full px-2.5 py-1 text-xs font-medium" style={{ backgroundColor: `${track.color}22`, color: track.color }}>
+                  {track.level}
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed text-[#8ba0b3]">{track.desc}</p>
+              <ul className="mt-4 space-y-2">
+                {track.points.map((point) => (
+                  <li key={point} className="flex items-center gap-2 text-sm text-[#c6d6e8]">
+                    <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: track.color }} />
+                    {point}
+                  </li>
+                ))}
+              </ul>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section>
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <p className="cyber-kicker">Platform Toolkit</p>
+            <h2 className="mt-2 text-3xl font-bold text-white">Everything to level up faster</h2>
+          </div>
+          <Badge variant="outline" icon={Users}>Built for solo learners and teams</Badge>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {FEATURE_GRID.map((feature) => {
+            const IconComponent = feature.icon;
+            return (
+              <Link key={feature.title} to={feature.link}>
+                <Card hover className="h-full cyber-panel" padding="p-5" gradient>
+                  <div className="mb-3 inline-flex h-10 w-10 items-center justify-center rounded-lg border border-[#1f2b37] bg-[#15222f]">
+                    <IconComponent size={18} className="text-[#9fef00]" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-[#dbe6f2]">{feature.title}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[#8ba0b3]">{feature.desc}</p>
+                  <p className="mt-4 inline-flex items-center gap-1 text-xs font-medium uppercase tracking-wider text-[#9fef00]">
+                    Enter <ArrowRight size={12} />
+                  </p>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
+
+      {!user && (
+        <section className="rounded-3xl border border-[#1f2b37] bg-linear-to-r from-[#101923] via-[#0f1822] to-[#101923] p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.35)] sm:p-10">
+          <p className="cyber-kicker">Ready For Deployment</p>
+          <h2 className="mt-2 text-3xl font-bold text-white sm:text-4xl">Start your first mission in under 2 minutes</h2>
+          <p className="mx-auto mt-4 max-w-2xl text-[#8ba0b3]">
+            Create an account, pick a track, and begin solving practical web security and development challenges immediately.
+          </p>
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+            <Link to="/register">
+              <Button size="lg" icon={Flame}>Create Free Account</Button>
+            </Link>
+            <Link to="/login">
+              <Button size="lg" variant="secondary">I already have access</Button>
             </Link>
           </div>
         </section>

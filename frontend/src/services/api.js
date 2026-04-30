@@ -119,3 +119,41 @@ export const forumAPI = {
   getMyThreads: (params) => api.get('/forum/my/threads', { params }),
   getMyPosts: (params) => api.get('/forum/my/posts', { params }),
 };
+
+// Admin APIs
+export const adminAPI = {
+  // Courses
+  createCourse: (data) => api.post('/courses', data),
+  updateCourse: (id, data) => api.put(`/courses/${id}`, data),
+  deleteCourse: (id) => api.delete(`/courses/${id}`),
+  
+  // Lessons
+  createLesson: (data) => api.post('/lessons', data),
+  updateLesson: (id, data) => api.put(`/lessons/${id}`, data),
+  deleteLesson: (id) => api.delete(`/lessons/${id}`),
+  
+  // Questions
+  getQuestions: (category) => api.get(`/exams/questions/${category}`),
+  createQuestion: (data) => api.post('/exams/questions', data),
+  updateQuestion: (id, data) => api.put(`/exams/questions/${id}`, data),
+  deleteQuestion: (id) => api.delete(`/exams/questions/${id}`),
+  getQuestionStats: () => api.get('/exams/questions/stats'),
+  
+  // Exams
+  createExam: (data) => api.post('/exams', data),
+  updateExam: (id, data) => api.put(`/exams/${id}`, data),
+  deleteExam: (id) => api.delete(`/exams/${id}`),
+  triggerRandomExam: () => api.post('/exams/trigger-random'),
+  
+  // Notifications
+  createNotification: (data) => api.post('/notifications', data),
+  broadcastNotification: (data) => api.post('/notifications/broadcast', data),
+  
+  // Streak
+  awardFreeze: (userId) => api.post(`/streak/award-freeze/${userId}`),
+  
+  // Articles  
+  createArticle: (data) => api.post('/articles', data),
+  updateArticle: (id, data) => api.put(`/articles/${id}`, data),
+  deleteArticle: (id) => api.delete(`/articles/${id}`),
+};
