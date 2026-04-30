@@ -1,24 +1,40 @@
 import { useState, useEffect, useCallback } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { forumAPI } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import LoadingScreen from '../components/LoadingScreen';
 import { Card, Badge, Button, Avatar, EmptyState } from '../components/ui';
 import ReactMarkdown from 'react-markdown';
 import {
+<<<<<<< HEAD
   ArrowLeft, Heart, MessageCircle, CheckCircle2, Pin, Lock, Send, Eye, Clock, ChevronRight, Tag, Share2, Check, User,
+=======
+  ArrowLeft, Heart, MessageCircle, CheckCircle2, Pin, Lock, Send,
+  Pencil, Trash2, X, Check,
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function ThreadView() {
   const { id } = useParams();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [thread, setThread] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reply, setReply] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
+
+  // Thread edit state
+  const [editingThread, setEditingThread] = useState(false);
+  const [threadEdit, setThreadEdit] = useState({ title: '', content: '' });
+
+  // Post edit state
+  const [editingPostId, setEditingPostId] = useState(null);
+  const [postEditContent, setPostEditContent] = useState('');
+
+  const isAdmin = user?.role === 'admin';
 
   const fetchThread = useCallback(async () => {
     try {
@@ -73,11 +89,96 @@ export default function ThreadView() {
     }
   };
 
+<<<<<<< HEAD
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     toast.success('Link copied!');
     setTimeout(() => setCopied(false), 2000);
+=======
+  // Thread edit/delete
+  const startEditThread = () => {
+    setThreadEdit({ title: thread.title, content: thread.content });
+    setEditingThread(true);
+  };
+
+  const handleSaveThreadEdit = async () => {
+    try {
+      await forumAPI.updateThread(id, threadEdit);
+      toast.success('Thread updated');
+      setEditingThread(false);
+      fetchThread();
+    } catch {
+      toast.error('Failed to update thread');
+    }
+  };
+
+  const handleDeleteThread = async () => {
+    if (!window.confirm('Delete this thread?')) return;
+    try {
+      await forumAPI.deleteThread(id);
+      toast.success('Thread deleted');
+      navigate('/forum');
+    } catch {
+      toast.error('Failed to delete');
+    }
+  };
+
+  // Admin toggles
+  const handleSolveThread = async () => {
+    try {
+      await forumAPI.solveThread(id, { isSolved: !thread.isSolved });
+      fetchThread();
+    } catch {
+      toast.error('Failed to update');
+    }
+  };
+
+  const handleTogglePin = async () => {
+    try {
+      await forumAPI.updateThread(id, { isPinned: !thread.isPinned });
+      fetchThread();
+    } catch {
+      toast.error('Failed to update');
+    }
+  };
+
+  const handleToggleLock = async () => {
+    try {
+      await forumAPI.updateThread(id, { isLocked: !thread.isLocked });
+      fetchThread();
+    } catch {
+      toast.error('Failed to update');
+    }
+  };
+
+  // Post edit/delete
+  const startEditPost = (post) => {
+    setEditingPostId(post.id);
+    setPostEditContent(post.content);
+  };
+
+  const handleSavePostEdit = async (postId) => {
+    try {
+      await forumAPI.updatePost(postId, { content: postEditContent });
+      toast.success('Post updated');
+      setEditingPostId(null);
+      fetchThread();
+    } catch {
+      toast.error('Failed to update post');
+    }
+  };
+
+  const handleDeletePost = async (postId) => {
+    if (!window.confirm('Delete this post?')) return;
+    try {
+      await forumAPI.deletePost(postId);
+      toast.success('Post deleted');
+      fetchThread();
+    } catch {
+      toast.error('Failed to delete');
+    }
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
   };
 
   if (loading) return <LoadingScreen main="Loading thread" secondary="Fetching discussion" />;
@@ -89,6 +190,10 @@ export default function ThreadView() {
       action={<Link to="/forum"><Button variant="secondary" size="sm">Back to Forum</Button></Link>}
     />
   );
+
+  const isThreadAuthor = user && (user.id === thread.author?.id || user.id === thread.authorId);
+  const canEditThread = isThreadAuthor || isAdmin;
+  const canDeleteThread = isThreadAuthor || isAdmin;
 
   return (
     <div className="mx-auto max-w-4xl space-y-6">
@@ -112,6 +217,7 @@ export default function ThreadView() {
         <span className="text-[#a0a0b8] truncate max-w-[200px]">{thread.title}</span>
       </div>
 
+<<<<<<< HEAD
       {/* Thread Hero Header */}
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#1a1a2e] via-[#16213e] to-[#1a1a2e] border border-[#2a2a4a]">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#5b5f97]/10 rounded-full blur-3xl"></div>
@@ -200,7 +306,103 @@ export default function ThreadView() {
                 {tag}
               </Badge>
             ))}
+=======
+      {/* Thread Header */}
+      <Card className="p-6">
+        {editingThread ? (
+          <div className="space-y-3">
+            <input
+              value={threadEdit.title}
+              onChange={(e) => setThreadEdit({ ...threadEdit, title: e.target.value })}
+              className="w-full rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] px-3 py-2 text-sm text-[#e0e0e0] outline-none focus:border-[#5b5f97]"
+            />
+            <textarea
+              value={threadEdit.content}
+              onChange={(e) => setThreadEdit({ ...threadEdit, content: e.target.value })}
+              rows={6}
+              className="w-full resize-y rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-3 text-sm text-[#e0e0e0] outline-none focus:border-[#5b5f97]"
+            />
+            <div className="flex gap-2">
+              <Button icon={Check} size="sm" onClick={handleSaveThreadEdit}>Save</Button>
+              <Button icon={X} size="sm" variant="secondary" onClick={() => setEditingThread(false)}>Cancel</Button>
+            </div>
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
           </div>
+        ) : (
+          <>
+            <div className="mb-3 flex flex-wrap items-center gap-2">
+              {thread.isPinned && <Badge variant="warning" icon={Pin}>Pinned</Badge>}
+              {thread.isLocked && <Badge variant="danger" icon={Lock}>Locked</Badge>}
+              {thread.isSolved && <Badge variant="success" icon={CheckCircle2}>Solved</Badge>}
+              {thread.category && (
+                <Badge color={thread.category.color || '#5b5f97'}>{thread.category.name}</Badge>
+              )}
+            </div>
+            <h1 className="text-xl font-bold text-[#b8b8d1]">{thread.title}</h1>
+            <div className="mt-2 flex items-center gap-3">
+              <Avatar name={thread.author?.username} size="sm" />
+              <div>
+                <span className="text-sm text-[#b8b8d1]">{thread.author?.username}</span>
+                <span className="ml-2 text-xs text-[#5b5f97]">{new Date(thread.createdAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+            <div className="prose prose-invert mt-4 max-w-none text-sm text-[#e0e0e0]">
+              <ReactMarkdown>{thread.content}</ReactMarkdown>
+            </div>
+            <div className="mt-4 flex flex-wrap items-center gap-3 border-t border-[#2a2a4a] pt-3 text-xs text-[#5b5f97]">
+              <button onClick={handleLikeThread} className="flex items-center gap-1 transition hover:text-[#e74c3c]">
+                <Heart size={14} /> {thread.likeCount}
+              </button>
+              <span className="flex items-center gap-1"><MessageCircle size={14} /> {thread.replyCount} replies</span>
+              <div className="ml-auto flex items-center gap-1.5">
+                {canEditThread && (
+                  <button
+                    onClick={startEditThread}
+                    className="flex items-center gap-1 rounded px-2 py-1 transition hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                  >
+                    <Pencil size={12} /> Edit
+                  </button>
+                )}
+                {canDeleteThread && (
+                  <button
+                    onClick={handleDeleteThread}
+                    className="flex items-center gap-1 rounded px-2 py-1 transition hover:bg-[#e74c3c]/10 hover:text-[#e74c3c]"
+                  >
+                    <Trash2 size={12} /> Delete
+                  </button>
+                )}
+                {isAdmin && (
+                  <>
+                    <button
+                      onClick={handleSolveThread}
+                      className={`flex items-center gap-1 rounded px-2 py-1 transition ${thread.isSolved ? 'text-[#2ecc71] hover:bg-[#2ecc71]/10' : 'hover:bg-[#2ecc71]/10 hover:text-[#2ecc71]'}`}
+                    >
+                      <CheckCircle2 size={12} /> {thread.isSolved ? 'Unsolve' : 'Solve'}
+                    </button>
+                    <button
+                      onClick={handleTogglePin}
+                      className={`flex items-center gap-1 rounded px-2 py-1 transition ${thread.isPinned ? 'text-[#f39c12] hover:bg-[#f39c12]/10' : 'hover:bg-[#f39c12]/10 hover:text-[#f39c12]'}`}
+                    >
+                      <Pin size={12} /> {thread.isPinned ? 'Unpin' : 'Pin'}
+                    </button>
+                    <button
+                      onClick={handleToggleLock}
+                      className={`flex items-center gap-1 rounded px-2 py-1 transition ${thread.isLocked ? 'text-[#e74c3c] hover:bg-[#e74c3c]/10' : 'hover:bg-[#e74c3c]/10 hover:text-[#e74c3c]'}`}
+                    >
+                      <Lock size={12} /> {thread.isLocked ? 'Unlock' : 'Lock'}
+                    </button>
+                  </>
+                )}
+              </div>
+            </div>
+            {thread.tags?.length > 0 && (
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {thread.tags.map((tag) => (
+                  <Badge key={tag} variant="outline">#{tag}</Badge>
+                ))}
+              </div>
+            )}
+          </>
         )}
         
         {/* Thread Stats */}
@@ -220,12 +422,83 @@ export default function ThreadView() {
         </div>
       </Card>
 
+<<<<<<< HEAD
       {/* Replies Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-semibold text-[#b8b8d1]">
             {posts.length > 0 ? `${posts.length} Replies` : 'Replies'}
           </h2>
+=======
+      {/* Posts */}
+      {posts.length === 0 ? (
+        <div className="py-6 text-center text-sm text-[#a0a0b8]">No replies yet. Be the first to respond.</div>
+      ) : (
+        <div className="space-y-3">
+          {posts.map((post) => {
+            const isPostAuthor = user && (user.id === post.author?.id || user.id === post.authorId);
+            const canEditPost = isPostAuthor || isAdmin;
+            return (
+              <Card
+                key={post.id}
+                className={`p-4 ${post.isSolution ? '!border-[#2ecc71]/30 !bg-[#2ecc71]/5' : ''}`}
+              >
+                {post.isSolution && (
+                  <Badge variant="success" icon={CheckCircle2} className="mb-2">Accepted Solution</Badge>
+                )}
+                <div className="mb-2 flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Avatar name={post.author?.username} size="sm" />
+                    <span className="text-sm font-medium text-[#b8b8d1]">{post.author?.username}</span>
+                  </div>
+                  <span className="text-xs text-[#5b5f97]">{new Date(post.createdAt).toLocaleDateString()}</span>
+                </div>
+
+                {editingPostId === post.id ? (
+                  <div className="space-y-2">
+                    <textarea
+                      value={postEditContent}
+                      onChange={(e) => setPostEditContent(e.target.value)}
+                      rows={4}
+                      className="w-full resize-y rounded-lg border border-[#2a2a4a] bg-[#1a1a2e] p-3 text-sm text-[#e0e0e0] outline-none focus:border-[#5b5f97]"
+                    />
+                    <div className="flex gap-2">
+                      <Button icon={Check} size="sm" onClick={() => handleSavePostEdit(post.id)}>Save</Button>
+                      <Button icon={X} size="sm" variant="secondary" onClick={() => setEditingPostId(null)}>Cancel</Button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="prose prose-invert max-w-none text-sm text-[#e0e0e0]">
+                    <ReactMarkdown>{post.content}</ReactMarkdown>
+                  </div>
+                )}
+
+                <div className="mt-3 flex items-center gap-3 text-xs text-[#5b5f97]">
+                  <button onClick={() => handleLikePost(post.id)} className="flex items-center gap-1 transition hover:text-[#e74c3c]">
+                    <Heart size={12} /> {post.likeCount}
+                  </button>
+                  {post.isEdited && <span className="text-[#a0a0b8]">(edited)</span>}
+                  {canEditPost && editingPostId !== post.id && (
+                    <div className="ml-auto flex items-center gap-1.5">
+                      <button
+                        onClick={() => startEditPost(post)}
+                        className="flex items-center gap-1 rounded px-1.5 py-0.5 transition hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                      >
+                        <Pencil size={11} /> Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeletePost(post.id)}
+                        className="flex items-center gap-1 rounded px-1.5 py-0.5 transition hover:bg-[#e74c3c]/10 hover:text-[#e74c3c]"
+                      >
+                        <Trash2 size={11} /> Delete
+                      </button>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
         </div>
         
         {posts.length === 0 ? (

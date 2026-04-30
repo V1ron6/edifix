@@ -53,6 +53,7 @@ export default function Register() {
   const passwordStrength = getPasswordStrength();
 
   return (
+<<<<<<< HEAD
     <div className="flex min-h-[85vh] items-center justify-center px-4 py-8">
       <div className="w-full max-w-5xl">
         <div className="grid lg:grid-cols-2 gap-0 overflow-hidden rounded-3xl border border-[#2a2a4a] shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
@@ -61,6 +62,41 @@ export default function Register() {
             <div className="absolute top-0 right-0 w-64 h-64 bg-[#5b5f97]/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-[#2ecc71]/5 rounded-full blur-2xl"></div>
             
+=======
+    <div className="flex min-h-[80vh] items-center justify-center">
+      <Card className="w-full max-w-lg border-l-2 border-l-[#5b5f97]" padding="p-8">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5b5f97]/20 to-[#7c3aed]/10 shadow-[0_0_20px_rgba(91,95,151,0.15)]">
+            <UserPlus size={26} className="text-[#5b5f97]" />
+          </div>
+          <h1 className="text-2xl font-bold text-[#b8b8d1]">Create an account</h1>
+          <p className="mt-1 text-sm text-[#a0a0b8]">Start your learning journey</p>
+        </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <Input
+            label="Username"
+            type="text"
+            required
+            value={form.username}
+            onChange={(e) => setForm({ ...form, username: e.target.value })}
+            placeholder="johndoe"
+            icon={User}
+          />
+
+          <Input
+            label="Email"
+            type="email"
+            required
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+            placeholder="you@example.com"
+            icon={Mail}
+          />
+
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-[#a0a0b8]">Password</label>
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
             <div className="relative">
               <Link to="/" className="flex items-center gap-2 mb-12">
                 <div className="p-2 bg-[#5b5f97]/20 rounded-xl">

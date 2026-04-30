@@ -3,7 +3,10 @@ export default function Card({
   className = '',
   hover = false,
   highlight = false,
+<<<<<<< HEAD
   gradient = false,
+=======
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
   glow = false,
   padding = 'p-5',
   ...props
@@ -24,7 +27,21 @@ export default function Card({
 
   return (
     <div
+<<<<<<< HEAD
       className={`${baseClasses} ${borderClasses} ${hoverClasses} ${glowClasses} ${padding} ${className}`}
+=======
+      className={`rounded-xl border bg-[#16213e] ${
+        glow
+          ? 'border-[#5b5f97]/20 shadow-[0_0_30px_rgba(91,95,151,0.12)]'
+          : highlight
+          ? 'border-[#5b5f97]/30 shadow-[0_0_15px_rgba(91,95,151,0.06)]'
+          : 'border-[#2a2a4a]'
+      } ${
+        hover
+          ? 'transition-all duration-200 hover:border-[#5b5f97]/50 hover:shadow-[0_8px_30px_rgba(91,95,151,0.1)]'
+          : ''
+      } ${padding} ${className}`}
+>>>>>>> f59cf19163d739540301b6513cea6b7dd25341c1
       {...props}
     >
       {gradient && (
