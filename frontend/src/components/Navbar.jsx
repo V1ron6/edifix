@@ -61,28 +61,37 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-[#2a2a4a] bg-[#1a1a2e]/95 backdrop-blur">
+    <nav className="sticky top-0 z-40 border-b border-[#5b5f97]/20 bg-[#0d0d1f]/80 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
-        <Link to="/" className="text-xl font-bold text-[#b8b8d1] tracking-wide">
+        <Link
+          to="/"
+          className="text-xl font-bold tracking-wide text-gradient transition-all duration-300 hover:glow-sm"
+        >
           EDIFIX
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-1 md:flex">
-          {NAV_LINKS.map(({ to, label, icon: Icon }) => (
-            <Link
-              key={to}
-              to={to}
-              className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
-                location.pathname.startsWith(to)
-                  ? 'bg-[#5b5f97]/20 text-[#b8b8d1]'
-                  : 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]'
-              }`}
-            >
-              <Icon size={16} />
-              {label}
-            </Link>
-          ))}
+          {NAV_LINKS.map(({ to, label, icon: Icon }) => {
+            const isActive = location.pathname.startsWith(to);
+            return (
+              <Link
+                key={to}
+                to={to}
+                className={`relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
+                  isActive
+                    ? 'bg-[#5b5f97]/15 text-white'
+                    : 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]'
+                }`}
+              >
+                <Icon size={16} />
+                {label}
+                {isActive && (
+                  <span className="absolute bottom-0 left-1/2 h-0.5 w-4/5 -translate-x-1/2 rounded-full bg-[#5b5f97]" />
+                )}
+              </Link>
+            );
+          })}
         </div>
 
         {/* Right section */}
@@ -91,14 +100,17 @@ export default function Navbar() {
             <>
               <Link
                 to="/dashboard"
-                className={`flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors ${
+                className={`relative flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-all duration-200 ${
                   location.pathname === '/dashboard'
-                    ? 'bg-[#5b5f97]/20 text-[#b8b8d1]'
+                    ? 'bg-[#5b5f97]/15 text-white'
                     : 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]'
                 }`}
               >
                 <Layout size={16} />
                 Dashboard
+                {location.pathname === '/dashboard' && (
+                  <span className="absolute bottom-0 left-1/2 h-0.5 w-4/5 -translate-x-1/2 rounded-full bg-[#5b5f97]" />
+                )}
               </Link>
               <Link
                 to="/notifications"
@@ -106,7 +118,7 @@ export default function Navbar() {
               >
                 <Bell size={18} />
                 {unreadCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#e74c3c] px-1 text-[10px] font-bold text-white">
+                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#e74c3c] px-1 text-[10px] font-bold text-white animate-bounce">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>
                 )}
@@ -114,14 +126,17 @@ export default function Navbar() {
               <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                  className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-[#a0a0b8] transition-all duration-200 hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
                 >
                   <User size={16} />
                   <span>{user.username}</span>
-                  <ChevronDown size={14} />
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform duration-200 ${profileOpen ? 'rotate-180' : ''}`}
+                  />
                 </button>
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-lg border border-[#2a2a4a] bg-[#16213e] py-1 shadow-xl animate-page">
+                  <div className="absolute right-0 mt-2 w-48 rounded-xl glass py-1 shadow-[0_8px_32px_rgba(0,0,0,0.4)] animate-page">
                     <Link
                       to="/profile"
                       onClick={() => setProfileOpen(false)}
@@ -153,13 +168,13 @@ export default function Navbar() {
             <div className="flex items-center gap-2">
               <Link
                 to="/login"
-                className="rounded-lg px-4 py-2 text-sm text-[#a0a0b8] hover:text-[#b8b8d1]"
+                className="rounded-lg px-4 py-2 text-sm text-[#a0a0b8] transition-colors hover:text-[#b8b8d1]"
               >
                 Log in
               </Link>
               <Link
                 to="/register"
-                className="rounded-lg bg-[#5b5f97] px-4 py-2 text-sm text-white hover:bg-[#5b5f97]/80"
+                className="rounded-lg bg-gradient-to-r from-[#5b5f97] to-[#7c3aed] px-4 py-2 text-sm text-white transition-all hover:opacity-90 hover:shadow-[0_4px_16px_rgba(91,95,151,0.4)]"
               >
                 Sign up
               </Link>
@@ -178,13 +193,17 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-[#2a2a4a] bg-[#1a1a2e] px-4 pb-4 pt-2 md:hidden">
+        <div className="border-t border-[#5b5f97]/20 bg-[#0d0d1f]/95 backdrop-blur-xl px-4 pb-4 pt-2 md:hidden">
           {NAV_LINKS.map(({ to, label, icon: Icon }) => (
             <Link
               key={to}
               to={to}
               onClick={() => setMobileOpen(false)}
-              className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+              className={`flex items-center gap-3 rounded-lg px-3 py-3 text-sm transition-colors ${
+                location.pathname.startsWith(to)
+                  ? 'bg-[#5b5f97]/15 text-white'
+                  : 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]'
+              }`}
             >
               <Icon size={16} />
               {label}
@@ -236,7 +255,7 @@ export default function Navbar() {
               <Link
                 to="/register"
                 onClick={() => setMobileOpen(false)}
-                className="flex-1 rounded-lg bg-[#5b5f97] px-4 py-2 text-center text-sm text-white"
+                className="flex-1 rounded-lg bg-gradient-to-r from-[#5b5f97] to-[#7c3aed] px-4 py-2 text-center text-sm text-white"
               >
                 Sign up
               </Link>

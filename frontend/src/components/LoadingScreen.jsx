@@ -1,53 +1,58 @@
 import { useEffect, useState } from 'react';
 
-const BAR_COLORS = ['#b8b8d1', '#5b5f97', '#ffffff', '#b8b8d1'];
-
 export default function LoadingScreen({ main = 'Loading', secondary = '' }) {
-  const [tick, setTick] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTick((prev) => (prev + 1) % 4);
-    }, 350);
-    return () => clearInterval(interval);
+    setMounted(true);
   }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#1a1a2e]">
-      {/* Subtle background gradient */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(91,95,151,0.08)_0%,transparent_70%)]" />
+      {/* Animated radial gradient background */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background: 'radial-gradient(ellipse at center, rgba(91,95,151,0.12) 0%, transparent 65%)',
+          animation: 'pulse-glow 5s ease-in-out infinite',
+        }}
+      />
 
-      <div className="relative flex flex-col items-center">
+      <div className={`relative flex flex-col items-center transition-opacity duration-500 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         {/* Brand */}
-        <span className="mb-6 text-sm font-bold tracking-[0.3em] text-[#5b5f97]/50">
+        <span className="mb-8 text-sm font-bold tracking-[0.3em] text-gradient">
           EDIFIX
         </span>
 
-        {/* Heading */}
-        <h1 className="mb-1.5 text-xl font-semibold text-[#b8b8d1]">{main}</h1>
-        {secondary && (
-          <h2 className="mb-10 text-sm text-[#5b5f97]">{secondary}</h2>
-        )}
-
-        {/* Animated bars */}
-        <div className="flex items-end gap-1.5" style={{ height: '3rem' }}>
-          {BAR_COLORS.map((color, i) => {
-            const isActive = i === tick;
-            const isNext = i === (tick + 1) % 4;
-            return (
-              <span
-                key={i}
-                className="block w-2.5 rounded-full"
-                style={{
-                  backgroundColor: color,
-                  height: isActive ? '2.5rem' : isNext ? '1.6rem' : '0.8rem',
-                  opacity: isActive ? 1 : isNext ? 0.7 : 0.35,
-                  transition: 'height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease',
-                }}
-              />
-            );
-          })}
+        {/* Orbital ring spinner */}
+        <div className="relative mb-8 flex h-16 w-16 items-center justify-center">
+          {/* Outer ring */}
+          <span
+            className="absolute inset-0 rounded-full border-2 border-transparent"
+            style={{
+              borderTopColor: '#5b5f97',
+              borderRightColor: '#5b5f97',
+              animation: 'spin-slow 2s linear infinite',
+            }}
+          />
+          {/* Inner ring */}
+          <span
+            className="absolute inset-2 rounded-full border-2 border-transparent"
+            style={{
+              borderBottomColor: '#7c3aed',
+              borderLeftColor: '#7c3aed',
+              animation: 'spin-slow 1.3s linear infinite reverse',
+            }}
+          />
+          {/* Center dot */}
+          <span className="h-2 w-2 rounded-full bg-[#5b5f97]" />
         </div>
+
+        {/* Heading */}
+        <h1 className="mb-1 text-xl font-semibold text-[#b8b8d1]">{main}</h1>
+        {secondary && (
+          <p className="text-sm text-[#5b5f97]">{secondary}</p>
+        )}
       </div>
     </div>
   );

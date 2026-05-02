@@ -117,8 +117,12 @@ const startServer = async () => {
     // Connect to database
     await connectDB();
 
-    // Start cron jobs
-    startCronJobs();
+    // Start cron jobs (disabled by default; set ENABLE_CRON=true to enable)
+    if (process.env.ENABLE_CRON === 'true') {
+      startCronJobs();
+    } else {
+      console.log('⏰ Cron jobs disabled (set ENABLE_CRON=true to enable)');
+    }
 
     app.listen(port, () => {
       console.log(`
