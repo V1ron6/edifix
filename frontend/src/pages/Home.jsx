@@ -159,7 +159,7 @@ export default function Home() {
               {/* Subtle gradient border top */}
               <div className="absolute inset-x-0 top-0 h-px rounded-t-2xl bg-gradient-to-r from-transparent via-[#5b5f97]/40 to-transparent" />
               <Icon size={20} className="mb-3 text-[#5b5f97]" />
-              <span className="text-3xl font-extrabold text-[#b8b8d1]">{value}</span>
+              <span className="text-2xl font-extrabold text-[#b8b8d1]">{value}</span>
               <span className="mt-1 text-xs text-[#a0a0b8]">{label}</span>
             </div>
           ))}

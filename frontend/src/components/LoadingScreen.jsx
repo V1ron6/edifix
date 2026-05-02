@@ -51,7 +51,7 @@ export default function LoadingScreen({ main = 'Loading', secondary = '' }) {
         {/* Heading */}
         <h1 className="mb-1 text-xl font-semibold text-[#b8b8d1]">{main}</h1>
         {secondary && (
-          <p className="text-sm text-[#5b5f97]">{secondary}</p>
+          <h2 className="text-sm text-[#5b5f97]">{secondary}</h2>
         )}
       </div>
     </div>

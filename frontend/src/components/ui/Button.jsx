@@ -29,7 +29,7 @@ const Button = forwardRef(({
     <button
       ref={ref}
       disabled={disabled || loading}
-      className={`inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 transform focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#1a1a2e] disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
+      className={`inline-flex items-center justify-center rounded-lg font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-offset-[#1a1a2e] disabled:opacity-50 disabled:pointer-events-none ${VARIANTS[variant]} ${SIZES[size]} ${className}`}
       {...props}
     >
       {loading ? (
