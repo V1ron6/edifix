@@ -5,6 +5,7 @@ import { notificationAPI } from '../services/api';
 import {
   BookOpen, Layout, Code2, FileText, MessageSquare,
   Bell, Trophy, User, LogOut, Menu, X, ChevronDown, Clock,
+  TrendingUp, Flame, Shield,
 } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -136,7 +137,7 @@ export default function Navbar() {
                   />
                 </button>
                 {profileOpen && (
-                  <div className="absolute right-0 mt-2 w-48 rounded-xl glass py-1 shadow-[0_8px_32px_rgba(0,0,0,0.4)] animate-page">
+                  <div className="absolute right-0 mt-2 w-52 rounded-xl glass py-1 shadow-[0_8px_32px_rgba(0,0,0,0.4)] animate-page">
                     <Link
                       to="/profile"
                       onClick={() => setProfileOpen(false)}
@@ -146,6 +147,22 @@ export default function Navbar() {
                       Profile
                     </Link>
                     <Link
+                      to="/progress"
+                      onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-[#a0a0b8] transition-colors hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                    >
+                      <TrendingUp size={14} />
+                      Progress
+                    </Link>
+                    <Link
+                      to="/streak"
+                      onClick={() => setProfileOpen(false)}
+                      className="flex items-center gap-2 px-4 py-2 text-sm text-[#a0a0b8] transition-colors hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                    >
+                      <Flame size={14} />
+                      Streak
+                    </Link>
+                    <Link
                       to="/reminders"
                       onClick={() => setProfileOpen(false)}
                       className="flex items-center gap-2 px-4 py-2 text-sm text-[#a0a0b8] transition-colors hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
@@ -153,6 +170,16 @@ export default function Navbar() {
                       <Clock size={14} />
                       Reminders
                     </Link>
+                    {user?.role === 'admin' && (
+                      <Link
+                        to="/admin/articles"
+                        onClick={() => setProfileOpen(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-sm text-[#a0a0b8] transition-colors hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                      >
+                        <Shield size={14} />
+                        Admin Articles
+                      </Link>
+                    )}
                     <button
                       onClick={handleLogout}
                       className="flex w-full items-center gap-2 px-4 py-2 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
@@ -220,6 +247,22 @@ export default function Navbar() {
                 Dashboard
               </Link>
               <Link
+                to="/progress"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+              >
+                <TrendingUp size={16} />
+                Progress
+              </Link>
+              <Link
+                to="/streak"
+                onClick={() => setMobileOpen(false)}
+                className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+              >
+                <Flame size={16} />
+                Streak
+              </Link>
+              <Link
                 to="/notifications"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
@@ -235,6 +278,16 @@ export default function Navbar() {
                 <User size={16} />
                 Profile
               </Link>
+              {user?.role === 'admin' && (
+                <Link
+                  to="/admin/articles"
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
+                >
+                  <Shield size={16} />
+                  Admin Articles
+                </Link>
+              )}
               <button
                 onClick={() => { handleLogout(); setMobileOpen(false); }}
                 className="flex w-full items-center gap-3 rounded-lg px-3 py-3 text-sm text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1]"
