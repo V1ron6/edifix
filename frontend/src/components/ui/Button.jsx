@@ -1,7 +1,7 @@
 import { forwardRef } from 'react';
 
 const VARIANTS = {
-  primary: 'bg-[#5b5f97] text-white hover:bg-[#5b5f97]/80 focus:ring-[#5b5f97]/40',
+  primary: 'bg-gradient-to-r from-[#5b5f97] to-[#7c3aed] text-white hover:opacity-90 hover:-translate-y-px hover:shadow-[0_6px_20px_rgba(91,95,151,0.4)] focus:ring-[#5b5f97]/40',
   secondary: 'border border-[#2a2a4a] text-[#a0a0b8] hover:border-[#5b5f97] hover:text-[#b8b8d1] focus:ring-[#5b5f97]/20',
   ghost: 'text-[#a0a0b8] hover:bg-[#5b5f97]/10 hover:text-[#b8b8d1] focus:ring-[#5b5f97]/20',
   danger: 'bg-[#e74c3c]/10 text-[#e74c3c] hover:bg-[#e74c3c]/20 focus:ring-[#e74c3c]/20',
@@ -33,7 +33,7 @@ const Button = forwardRef(({
       {...props}
     >
       {loading ? (
-        <span className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+        <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
       ) : Icon ? (
         <Icon size={size === 'sm' ? 12 : 14} />
       ) : null}

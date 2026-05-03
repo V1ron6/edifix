@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #5b5f97;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -51,14 +55,82 @@ body {
   outline-offset: 2px;
 }
 
-/* Smooth page transitions */
+/* ── Keyframes ─────────────────────────────────────── */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { transform: scale(1);    box-shadow: 0 0 60px rgba(91,95,151,0.25); }
+  50%       { transform: scale(1.04); box-shadow: 0 0 100px rgba(91,95,151,0.45); }
+}
+
+@keyframes gradient-shift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+@keyframes shimmer-slide {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+/* ── Utility classes ───────────────────────────────── */
 
 .animate-page {
   animation: fadeIn 0.3s ease-out;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 8s linear infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out both;
+}
+
+/* Frosted-glass card */
+.glass {
+  background: rgba(22, 33, 62, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(91, 95, 151, 0.15);
+}
+
+/* Box-shadow glows */
+.glow-sm {
+  box-shadow: 0 0 12px rgba(91, 95, 151, 0.25);
+}
+
+.glow-md {
+  box-shadow: 0 0 28px rgba(91, 95, 151, 0.35);
 }
 
 /* Subtle glow for primary elements */
@@ -66,7 +138,7 @@ body {
   box-shadow: 0 0 20px rgba(91, 95, 151, 0.15);
 }
 
-/* Gradient text utility */
+/* Gradient text – soft original */
 .text-gradient {
   background: linear-gradient(135deg, #b8b8d1, #5b5f97);
   -webkit-background-clip: text;
@@ -74,16 +146,27 @@ body {
   background-clip: text;
 }
 
-/* Loading bar animation */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* Gradient text – vivid purple→indigo */
+.text-gradient-vivid {
+  background: linear-gradient(135deg, #a78bfa, #5b5f97, #7c3aed);
+  background-size: 200% 200%;
+  animation: gradient-shift 4s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
+/* Dot-grid background pattern */
+.dot-grid {
+  background-image: radial-gradient(rgba(91, 95, 151, 0.15) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Skeleton shimmer */
 .skeleton {
   background: linear-gradient(90deg, #16213e 25%, #2a2a4a 50%, #16213e 75%);
   background-size: 200% 100%;
-  animation: shimmer 1.5s ease-in-out infinite;
+  animation: shimmer-slide 1.5s ease-in-out infinite;
   border-radius: 0.5rem;
 }
 

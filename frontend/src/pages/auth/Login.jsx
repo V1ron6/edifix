@@ -28,10 +28,10 @@ export default function Login() {
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
-      <Card className="w-full max-w-md" padding="p-8">
-        <div className="mb-6 text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#5b5f97]/10">
-            <LogIn size={24} className="text-[#5b5f97]" />
+      <Card className="w-full max-w-lg border-l-2 border-l-[#5b5f97]" padding="p-8">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-[#5b5f97]/20 to-[#7c3aed]/10 shadow-[0_0_20px_rgba(91,95,151,0.15)]">
+            <LogIn size={26} className="text-[#5b5f97]" />
           </div>
           <h1 className="text-2xl font-bold text-[#b8b8d1]">Welcome back</h1>
           <p className="mt-1 text-sm text-[#a0a0b8]">Sign in to continue learning</p>
