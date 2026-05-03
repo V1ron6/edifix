@@ -11,7 +11,7 @@ export default function LoadingScreen({ main = 'Loading', secondary = '' }) {
     <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#1a1a2e]">
       {/* Animated radial gradient background */}
       <div
-        className="absolute inset-0 pointer-events-none"
+        className="pointer-events-none absolute inset-0"
         style={{
           background: 'radial-gradient(ellipse at center, rgba(91,95,151,0.12) 0%, transparent 65%)',
           animation: 'pulse-glow 5s ease-in-out infinite',

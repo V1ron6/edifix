@@ -75,7 +75,7 @@ export default function Home() {
       <section className="relative flex flex-col items-center pt-20 text-center">
         {/* Animated radial blob */}
         <div
-          className="absolute top-0 -translate-y-1/4 h-[600px] w-[600px] rounded-full opacity-30 pointer-events-none"
+          className="pointer-events-none absolute top-0 -translate-y-1/4 h-[600px] w-[600px] rounded-full opacity-30"
           style={{
             background: 'radial-gradient(ellipse at center, rgba(91,95,151,0.6) 0%, rgba(124,58,237,0.2) 50%, transparent 75%)',
             animation: 'pulse-glow 6s ease-in-out infinite',
@@ -254,7 +254,7 @@ export default function Home() {
         <section className="mx-auto max-w-3xl text-center">
           <div className="relative overflow-hidden rounded-3xl border border-[#5b5f97]/25 bg-gradient-to-br from-[#5b5f97]/20 via-[#16213e] to-[#7c3aed]/10 p-14">
             {/* Pattern overlay */}
-            <div className="absolute inset-0 dot-grid opacity-30 pointer-events-none" />
+            <div className="pointer-events-none absolute inset-0 dot-grid opacity-30" />
             <div className="relative z-10">
               <h2 className="text-3xl font-extrabold text-[#b8b8d1]">Start Your Journey Today</h2>
               <p className="mx-auto mt-4 max-w-md text-base text-[#a0a0b8]">
