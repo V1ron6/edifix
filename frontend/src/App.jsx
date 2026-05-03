@@ -24,6 +24,9 @@ import Notifications from './pages/Notifications';
 import Reminders from './pages/Reminders';
 import Profile from './pages/Profile';
 import Leaderboard from './pages/Leaderboard';
+import Streak from './pages/Streak';
+import Progress from './pages/Progress';
+import AdminArticles from './pages/admin/Articles';
 import Notfound from './pages/Notfound.jsx'
 
 export default function App() {
@@ -61,12 +64,16 @@ export default function App() {
             <Route path="*" element={<Notfound />} />
             {/* Protected */}
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+            <Route path="/progress" element={<ProtectedRoute><Progress /></ProtectedRoute>} />
+            <Route path="/streak" element={<ProtectedRoute><Streak /></ProtectedRoute>} />
             <Route path="/exams" element={<ProtectedRoute><Exams /></ProtectedRoute>} />
             <Route path="/exams/:id" element={<ProtectedRoute><ExamTake /></ProtectedRoute>} />
             <Route path="/forum/new" element={<ProtectedRoute><NewThread /></ProtectedRoute>} />
             <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
             <Route path="/reminders" element={<ProtectedRoute><Reminders /></ProtectedRoute>} />
             <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            {/* Admin */}
+            <Route path="/admin/articles" element={<ProtectedRoute><AdminArticles /></ProtectedRoute>} />
           </Route>
         </Routes>
       </AuthProvider>

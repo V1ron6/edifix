@@ -96,6 +96,11 @@ export const articleAPI = {
   getByCategory: (category) => api.get(`/articles/category/${category}`),
   getById: (id) => api.get(`/articles/${id}`),
   getBySlug: (slug) => api.get(`/articles/slug/${slug}`),
+  // Admin endpoints
+  adminGetAll: (params) => api.get('/articles/admin/all', { params }),
+  create: (data) => api.post('/articles', data),
+  update: (id, data) => api.put(`/articles/${id}`, data),
+  delete: (id) => api.delete(`/articles/${id}`),
 };
 
 // Forum
