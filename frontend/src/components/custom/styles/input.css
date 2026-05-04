@@ -1,0 +1,4 @@
+.inputPrimary{
+	border:0.01cm solid var(--primary)
+	outline:var(--outliner)
+}

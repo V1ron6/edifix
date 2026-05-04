@@ -1,6 +1,6 @@
 .primary{
 	font-size: large;
-	color:rebeccapurple;
+	color:var(--primary);
 	border:0.01cm solid grey;
 	border-radius:16px;
 	width: 6rem;
@@ -11,7 +11,7 @@
 
 .secondary{
 	font-size: large;
-	color:rgb(156, 206, 41);
+	color:var(--secondary);
 	border:0.01cm solid grey;
 	border-radius:16px;
 	width: 6rem;
@@ -22,7 +22,7 @@
 
 .ghost{
 	font-size: large;
-	color:rgba(39, 173, 173, 0.575);
+	color:var(--accent);
 	border:0.01cm solid grey;
 	border-radius:16px;
 	width: 6rem;

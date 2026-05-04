@@ -1,10 +1,14 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import {Routes, Route } from 'react-router-dom';
 import Login from './pages/auth/login.jsx'
+import Test from './components/custom/test.jsx'
 
 
-
-export default function App() {
+ const  App=()=> {
   return (
-    <Login />  
-  );
-}
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/test" element={<Test />} />
+    </Routes>
+  )}
+
+export default App
