@@ -26,6 +26,7 @@ import Playground from './pages/playground/Playground';
 import Leaderboard from './pages/profile/Leaderboard';
 import Profile from './pages/profile/Profile';
 import Settings from './pages/profile/Settings';
+import Home from './pages/Home';
 import { api } from './utils/api';
 
 function HomeRedirect() {
@@ -80,7 +81,7 @@ function AppShell() {
       <ToastPortal />
       <Navbar notifications={notifications} showPreview={showPreview} />
       <Routes>
-        <Route path="/" element={<HomeRedirect />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
