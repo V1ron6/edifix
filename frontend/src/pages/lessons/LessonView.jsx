@@ -5,6 +5,7 @@ import Button from '../../components/shared/Button';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import { notifyError, notifySuccess } from '../../components/shared/Toast';
 import { api } from '../../utils/api';
+import { addRecentLesson } from '../../utils/learningStorage';
 import { unwrap } from '../../utils/response';
 
 export default function LessonView() {
@@ -24,6 +25,13 @@ export default function LessonView() {
         const lesson = data?.lesson || data;
         setLessonData(data);
         setCode(lesson?.codeTemplate || '');
+        addRecentLesson({
+          courseSlug,
+          lessonSlug,
+          lessonTitle: lesson?.title,
+          courseTitle: lesson?.Course?.title || courseSlug,
+          viewedAt: new Date().toISOString(),
+        });
       } catch (error) {
         notifyError(error.message);
       } finally {

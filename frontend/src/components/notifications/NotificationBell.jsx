@@ -11,7 +11,7 @@ export default function NotificationBell({ count = 0, preview = [] }) {
       {preview.length > 0 ? (
         <div className="bell-preview">
           {preview.slice(0, 5).map((item) => (
-            <p key={item.id || item._id}>{item.message}</p>
+            <p key={item.id || item._id}>{item.title ? `${item.title}: ` : ''}{item.message}</p>
           ))}
           <Link to="/notifications">See all</Link>
         </div>

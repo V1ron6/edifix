@@ -11,6 +11,7 @@ import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import CourseDetail from './pages/courses/CourseDetail';
 import CourseList from './pages/courses/CourseList';
+import MyLearning from './pages/courses/MyLearning';
 import Dashboard from './pages/dashboard/Dashboard';
 import ExamPage from './pages/exams/ExamPage';
 import ExamResults from './pages/exams/ExamResults';
@@ -20,9 +21,11 @@ import NewThread from './pages/forum/NewThread';
 import ThreadView from './pages/forum/ThreadView';
 import LessonView from './pages/lessons/LessonView';
 import Notifications from './pages/notifications/Notifications';
+import NotFound from './pages/NotFound';
 import Playground from './pages/playground/Playground';
 import Leaderboard from './pages/profile/Leaderboard';
 import Profile from './pages/profile/Profile';
+import Settings from './pages/profile/Settings';
 import { api } from './utils/api';
 
 function HomeRedirect() {
@@ -33,6 +36,26 @@ function HomeRedirect() {
 function AppShell() {
   const { isAuthenticated } = useAuth();
   const [notifications, setNotifications] = useState([]);
+  const [showPreview, setShowPreview] = useState(true);
+
+  useEffect(() => {
+    const applyPrefs = () => {
+      const raw = localStorage.getItem('edifix_ui_prefs');
+      let prefs = {};
+      try {
+        prefs = raw ? JSON.parse(raw) : {};
+      } catch {
+      }
+
+      document.body.classList.toggle('compact-cards', Boolean(prefs.compactCards));
+      document.body.classList.toggle('reduce-motion', Boolean(prefs.reduceMotion));
+      setShowPreview(prefs.showForumPreview !== false);
+    };
+
+    applyPrefs();
+    window.addEventListener('storage', applyPrefs);
+    return () => window.removeEventListener('storage', applyPrefs);
+  }, []);
 
   useEffect(() => {
     async function loadNotificationPreview() {
@@ -55,7 +78,7 @@ function AppShell() {
   return (
     <>
       <ToastPortal />
-      <Navbar notifications={notifications} />
+      <Navbar notifications={notifications} showPreview={showPreview} />
       <Routes>
         <Route path="/" element={<HomeRedirect />} />
         <Route path="/login" element={<Login />} />
@@ -64,6 +87,7 @@ function AppShell() {
         <Route path="/courses" element={<CourseList />} />
         <Route path="/courses/:slug" element={<CourseDetail />} />
         <Route path="/courses/:courseSlug/:lessonSlug" element={<ProtectedRoute><LessonView /></ProtectedRoute>} />
+        <Route path="/my-learning" element={<ProtectedRoute><MyLearning /></ProtectedRoute>} />
         <Route path="/exams/:courseId" element={<ProtectedRoute><ExamPage /></ProtectedRoute>} />
         <Route path="/exams/results" element={<ProtectedRoute><ExamResults /></ProtectedRoute>} />
         <Route path="/playground" element={<ProtectedRoute><Playground /></ProtectedRoute>} />
@@ -75,7 +99,9 @@ function AppShell() {
         <Route path="/forum/:categorySlug/:threadSlug" element={<ThreadView />} />
         <Route path="/notifications" element={<ProtectedRoute><Notifications /></ProtectedRoute>} />
         <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+        <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
         <Route path="/leaderboard" element={<Leaderboard />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />
     </>

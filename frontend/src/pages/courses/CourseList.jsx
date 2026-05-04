@@ -5,6 +5,7 @@ import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import { notifyError } from '../../components/shared/Toast';
 import { useAuth } from '../../context/AuthContext';
 import { api } from '../../utils/api';
+import { isCourseSaved, toggleSavedCourse } from '../../utils/learningStorage';
 import { unwrap } from '../../utils/response';
 
 const difficulties = ['All', 'Beginner', 'Intermediate', 'Advanced'];
@@ -37,6 +38,11 @@ export default function CourseList() {
     return courses.filter((course) => course.difficulty?.toLowerCase() === difficulty.toLowerCase());
   }, [courses, difficulty]);
 
+  const handleToggleSaved = (course) => {
+    toggleSavedCourse(course);
+    setCourses((prev) => [...prev]);
+  };
+
   if (loading) return <LoadingSpinner text="Loading courses..." />;
 
   return (
@@ -54,7 +60,14 @@ export default function CourseList() {
       </section>
       <section className="card-grid">
         {filtered.map((course) => (
-          <CourseCard key={course.id} course={course} progress={course.percentage || 0} isAuthed={isAuthenticated} />
+          <CourseCard
+            key={course.id}
+            course={course}
+            progress={course.percentage || 0}
+            isAuthed={isAuthenticated}
+            isSaved={isCourseSaved(course.id)}
+            onToggleSave={handleToggleSaved}
+          />
         ))}
       </section>
     </main>

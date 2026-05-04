@@ -73,6 +73,10 @@ select {
 	align-items: center;
 }
 
+.wrap-row {
+	flex-wrap: wrap;
+}
+
 .nav-item.active {
 	color: var(--primary);
 }
@@ -498,6 +502,18 @@ textarea {
 .bell-wrap:hover .bell-preview {
 	display: grid;
 	gap: 0.4rem;
+}
+
+.compact-cards .card {
+	padding: 0.75rem;
+	box-shadow: none;
+}
+
+.reduce-motion *,
+.reduce-motion *::before,
+.reduce-motion *::after {
+	animation: none !important;
+	transition: none !important;
 }
 
 .exam-timer {

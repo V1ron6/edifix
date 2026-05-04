@@ -7,12 +7,13 @@ import NotificationBell from '../notifications/NotificationBell';
 const navItems = [
   { to: '/dashboard', label: 'Dashboard' },
   { to: '/courses', label: 'Courses' },
+  { to: '/my-learning', label: 'My Learning' },
   { to: '/playground', label: 'Playground' },
   { to: '/articles', label: 'Articles' },
   { to: '/forum', label: 'Forum' },
 ];
 
-export default function Navbar({ notifications = [] }) {
+export default function Navbar({ notifications = [], showPreview = true }) {
   const { isAuthenticated, user, logout } = useAuth();
 
   return (
@@ -28,11 +29,14 @@ export default function Navbar({ notifications = [] }) {
             ))}
           </nav>
           <div className="nav-actions">
-            <NotificationBell count={notifications.filter((n) => !n.read).length} preview={notifications} />
+            <NotificationBell
+              count={notifications.filter((n) => !n.isRead).length}
+              preview={showPreview ? notifications : []}
+            />
             <div className="user-menu">
               <Avatar username={user?.username} src={user?.avatarUrl || user?.avatar} size={32} />
               <Link to="/profile">Profile</Link>
-              <Link to="/profile">Settings</Link>
+              <Link to="/settings">Settings</Link>
               <Button variant="ghost" onClick={logout}>Logout</Button>
             </div>
           </div>
