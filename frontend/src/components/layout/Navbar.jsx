@@ -23,7 +23,11 @@ export default function Navbar({ notifications = [], showPreview = true }) {
         <>
           <nav className="nav-links">
             {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to} className="nav-item">
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
+              >
                 {item.label}
               </NavLink>
             ))}
